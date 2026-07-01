@@ -72,7 +72,7 @@ function PatientList() {
           <>
             <div className='flex gap-2 justify-end'>
               <p className='text-amber-300 text-end cursor-pointer' onClick={ savePatientsInfo }>Save to File</p>
-              <p className='text-blue-500 text-end cursor-pointer' onClick={ uploadPatientList }>Upload Data</p>
+              <p className='text-sky-300 text-end cursor-pointer' onClick={ uploadPatientList }>Upload Data</p>
             </div>
            
             <div className='flex w-full mt-2 border-t border-b mb-3 sticky top-0 bg-[#1a1a1a]'>
