@@ -19,9 +19,12 @@ const patientSlice = createSlice({
       if (patientIndex !== -1) {
         state.patientList[patientIndex] = action.payload;
       }
+    },
+    addBulkPatients(state, action)  {
+      state.patientList = action.payload
     }
   }
 })
 
-export const { addPatient, removePatient, editPatient } = patientSlice.actions;
+export const { addPatient, removePatient, editPatient, addBulkPatients } = patientSlice.actions;
 export default patientSlice.reducer

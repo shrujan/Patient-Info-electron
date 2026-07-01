@@ -6,6 +6,7 @@ declare global {
     electron: ElectronAPI
     api: {
       savePatients: (patients: PatientFormData[]) => Promise<void>
+      uploadPatients: () => Promise<PatientFormData[] | null>
     }
   }
 }

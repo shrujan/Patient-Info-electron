@@ -3,7 +3,8 @@ import { electronAPI } from '@electron-toolkit/preload'
 
 // Custom APIs for renderer
 const api = {
-  savePatients: (patients) => ipcRenderer.invoke('save-patients', patients)
+  savePatients: (patients) => ipcRenderer.invoke('save-patients', patients),
+  uploadPatients: () => ipcRenderer.invoke('upload-patients')
 }
 
 // Use `contextBridge` APIs to expose Electron APIs to

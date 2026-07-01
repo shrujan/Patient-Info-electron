@@ -80,9 +80,30 @@ ipcMain.handle('save-patients', async (_event, patients) => {
       filters: [{ name: 'JSON', extensions: ['json'] }]
     })
 
-    if (canceled || !filePath) return
+    if (canceled || !filePath)
+      return
 
     fs.writeFileSync(filePath, JSON.stringify(patients, null, 2))
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
+})
+
+// This is for Loading the Patient information from a file
+ipcMain.handle('upload-patients', async () => {
+  try {
+    const { filePaths, canceled } = await dialog.showOpenDialog({
+      title: 'Open Patients File',
+      filters: [{ name: 'JSON', extensions: ['json'] }],
+      properties: ['openFile']
+    })
+
+    if (canceled || filePaths.length === 0)
+      return null
+
+    const content = fs.readFileSync(filePaths[0], 'utf-8')
+    return JSON.parse(content)
   } catch (error) {
     console.error(error)
     throw error

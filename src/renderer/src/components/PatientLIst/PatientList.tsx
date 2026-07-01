@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { PatientFormData, PatientListType } from '@renderer/models/interfaces';
 import MaterialInput from '../shared/MaterialInput';
 import { useEffect, useState } from 'react';
-import { removePatient } from '../../store/patientSlice';
+import { removePatient, addBulkPatients } from '../../store/patientSlice';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -44,6 +44,12 @@ function PatientList() {
     window.api.savePatients(patientList)
   }
 
+  const uploadPatientList = () => {
+    window.api.uploadPatients().then(patients => {
+      dispatch( addBulkPatients(patients) );
+    });
+  }
+
   return (
     <div className=' flex flex-col w-full min-w-[50vw] min-h-[60vh] max-h-[70vh] border-2 p-5'>
       
@@ -64,7 +70,11 @@ function PatientList() {
       <div className='flex flex-col min-h-0 flex-1 mt-9 w-full overflow-y-auto'>
         {
           <>
-            <p className='text-amber-300 text-end cursor-pointer' onClick={ savePatientsInfo }>Save to File</p>
+            <div className='flex gap-2 justify-end'>
+              <p className='text-amber-300 text-end cursor-pointer' onClick={ savePatientsInfo }>Save to File</p>
+              <p className='text-blue-500 text-end cursor-pointer' onClick={ uploadPatientList }>Upload Data</p>
+            </div>
+           
             <div className='flex w-full mt-2 border-t border-b mb-3 sticky top-0 bg-[#1a1a1a]'>
               <span className='w-[25%]'>Name</span>
               <span className='w-[30%]'>Email</span>
