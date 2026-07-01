@@ -13,8 +13,8 @@ function PatientList() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [filteredList, updateFilteredList] = useState<PatientFormData[]>([]);
-  const [ search, setSearch ]              = useState('');
+  const [ filteredList, updateFilteredList ] = useState<PatientFormData[]>([]);
+  const [ search, setSearch ]                = useState('');
 
   useEffect(() => {
     updateFilteredList(() => patientList)
@@ -42,9 +42,9 @@ function PatientList() {
 
 
   return (
-    <div className='w-full min-w-[50vw] min-h-[60vh] border-2 p-5'>
+    <div className=' flex flex-col w-full min-w-[50vw] min-h-[60vh] max-h-[70vh] border-2 p-5'>
       
-      <div className='flex gap-1.5 '>
+      <div className='flex gap-1.5 items-center justify-center'>
         <div className='flex justify-center items-center w-[90%] relative'>
           <MaterialInput
             id='search'
@@ -55,39 +55,38 @@ function PatientList() {
           ></MaterialInput>
           <button className='mr-[-10px] absolute right-5 cursor-pointer' onClick={ resetSearch }>X</button>
         </div>
-        <button className='bg-blue-600 py-0 px-1 rounded-[5px] cursor-pointer' onClick={ onSearch }>Search </button>
+        <button className='bg-blue-600 py-0 px-1 rounded-[5px] cursor-pointer h-10 text-sm font-medium text-white' onClick={ onSearch }>Search</button>
       </div>
 
-      <div className={ `mt-9 w-full` }>
+
+      <div className='flex flex-col min-h-0 flex-1 mt-9 w-full overflow-y-auto'>
         {
-          // (filteredList && filteredList.length > 0) && (
-            <>
-              <div className='flex w-full mt-2 border-t border-b mb-3'>
-                <span className='w-[25%]'>Name</span>
-                <span className='w-[30%]'>Email</span>
-                <span className='w-[25%]'>Phone</span>
+          <>
+            <div className='flex w-full mt-2 border-t border-b mb-3 sticky top-0 bg-[#1a1a1a]'>
+              <span className='w-[25%]'>Name</span>
+              <span className='w-[30%]'>Email</span>
+              <span className='w-[25%]'>Phone</span>
+            </div>
+            {filteredList && filteredList.length > 0 && filteredList.map((patient) => (
+              <div className={`w-full flex mt-1.5`} key={patient.id}>
+                <span className='w-[25%]'>{patient.firstName} {patient.lastName}</span>
+                <span className='w-[30%]'>{patient.email}</span>
+                <span className='w-[25%]'>{patient.phone}</span>
+                <span className='w-[20%] flex gap-2'>
+                  <button
+                    className='flex items-center cursor-pointer bg-blue-600 px-2 rounded-[5px] h-7.5 text-sm font-medium text-white'
+                    onClick={() => handleEdit(patient)}>
+                    Edit
+                  </button>
+                  <button
+                    className='flex items-center cursor-pointer bg-red-500 px-2 rounded-[5px] h-7.5 text-sm font-medium text-white'
+                    onClick={() => dispatch(removePatient(patient.id))}>
+                    Delete
+                  </button>
+                </span>
               </div>
-              {filteredList && filteredList.length > 0 && filteredList.map((patient, index) => (
-                <div className={`w-full flex mt-1.5`} key={patient.id}>
-                  <span className='w-[25%]'>{patient.firstName} {patient.lastName}</span>
-                  <span className='w-[30%]'>{patient.email}</span>
-                  <span className='w-[25%]'>{patient.phone}</span>
-                  <span className='w-[20%] flex gap-2'>
-                    <button
-                      className='flex items-center cursor-pointer bg-blue-600 px-2 rounded-[5px] h-7.5 text-sm font-medium text-white'
-                      onClick={ () => handleEdit(patient) }>
-                      Edit
-                    </button>
-                    <button
-                      className='flex items-center cursor-pointer bg-red-500 px-2 rounded-[5px] h-7.5 text-sm font-medium text-white'
-                      onClick={ () => dispatch( removePatient(patient.id) ) }>
-                      Delete
-                    </button>
-                  </span>
-                </div>
-              ))}
-            </>
-          // )
+            ))}
+          </>
         }
 
         { (!filteredList || filteredList.length === 0) ? <p className='font-bold text-[20px] text-center w-full flex align-middle justify-center mt-4'> No Patients to show </p> : null }
