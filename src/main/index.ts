@@ -1,7 +1,8 @@
-import { app, shell, BrowserWindow, ipcMain } from 'electron'
+import { app, shell, BrowserWindow, ipcMain, dialog } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
-import icon from '../../resources/icon.png?asset'
+import icon from '../../resources/icon.png?asset';
+import fs from 'fs'
 
 function createWindow(): void {
   // Create the browser window.
@@ -67,6 +68,24 @@ app.whenReady().then(() => {
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit()
+  }
+})
+
+// This is for Saving the Patient information in a file so that it can be fetched later on
+ipcMain.handle('save-patients', async (_event, patients) => {
+  try {
+    const { filePath, canceled } = await dialog.showSaveDialog({
+      title: 'Save Patients Info',
+      defaultPath: 'patients.json',
+      filters: [{ name: 'JSON', extensions: ['json'] }]
+    })
+
+    if (canceled || !filePath) return
+
+    fs.writeFileSync(filePath, JSON.stringify(patients, null, 2))
+  } catch (error) {
+    console.error(error)
+    throw error
   }
 })
 

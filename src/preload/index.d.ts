@@ -1,8 +1,11 @@
 import { ElectronAPI } from '@electron-toolkit/preload'
+import { PatientFormData } from '../renderer/src/models/interfaces'
 
 declare global {
   interface Window {
     electron: ElectronAPI
-    api: unknown
+    api: {
+      savePatients: (patients: PatientFormData[]) => Promise<void>
+    }
   }
 }

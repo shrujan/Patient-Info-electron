@@ -40,6 +40,9 @@ function PatientList() {
     navigate(`patients-input/${ patient.id }`);
   }
 
+  const savePatientsInfo = () => {
+    window.api.savePatients(patientList)
+  }
 
   return (
     <div className=' flex flex-col w-full min-w-[50vw] min-h-[60vh] max-h-[70vh] border-2 p-5'>
@@ -58,10 +61,10 @@ function PatientList() {
         <button className='bg-blue-600 py-0 px-1 rounded-[5px] cursor-pointer h-10 text-sm font-medium text-white' onClick={ onSearch }>Search</button>
       </div>
 
-
       <div className='flex flex-col min-h-0 flex-1 mt-9 w-full overflow-y-auto'>
         {
           <>
+            <p className='text-amber-300 text-end cursor-pointer' onClick={ savePatientsInfo }>Save to File</p>
             <div className='flex w-full mt-2 border-t border-b mb-3 sticky top-0 bg-[#1a1a1a]'>
               <span className='w-[25%]'>Name</span>
               <span className='w-[30%]'>Email</span>
